@@ -19,21 +19,23 @@ export const Report = ({
   const createNewReportCommand = () => {
     let purchaseCommands;
 
-    if (day === 'default') {
-      purchaseCommands = executedCommands.filter(
-        command => command.type === 'purchase' && command.year === year && command.month === month
-      );
-    } else {
-      purchaseCommands = executedCommands.filter(
-        command => command.type === 'purchase' && command.year === year && command.month === month && command.day === day
-      );
-    }
-
     const newCommand = {
       type: command,
       id: v4(),
       purchaseCommands
     };
+
+    if (day === 'default') {
+      newCommand.purchaseCommands = executedCommands.filter(
+        command => command.type === 'purchase' && command.year === year && command.month === month
+      );
+      newCommand.type = newCommand.type + ' month';
+    } else {
+      newCommand.purchaseCommands = executedCommands.filter(
+        command => command.type === 'purchase' && command.year === year && command.month === month && command.day === day
+      );
+      newCommand.type = newCommand.type + ' day';
+    }
 
     setExecutedCommands(prevState => [...prevState, newCommand]);
   }

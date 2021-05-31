@@ -54,6 +54,7 @@ export const CommandsPage = ({ categories, command, executedCommands, setCategor
         return (
           <Clear
             command={command}
+            categories={categories}
             setCategories={setCategories}
             setExecutedCommands={setExecutedCommands}
           />

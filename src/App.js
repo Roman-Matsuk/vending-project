@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 import { CommandsPage } from './components/CommandsPage';
+import { Output } from './components/Output';
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -29,6 +30,7 @@ function App() {
         setCategories={setCategories}
         setExecutedCommands={setExecutedCommands}
       />
+      <Output executedCommands={executedCommands} />
     </div>
   );
 }

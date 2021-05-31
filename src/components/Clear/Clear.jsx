@@ -2,16 +2,19 @@ import React from 'react';
 
 import { v4 } from 'uuid';
 
-export const Clear = ({ command, setCategories, setExecutedCommands }) => {
+export const Clear = ({ command, categories, setCategories, setExecutedCommands }) => {
 
   const clearAllEmptyCategories = () => {
     setCategories(prevState => prevState.filter(category => category.amount > 0));
   }
 
   const createNewClearCommand = () => {
+    const emptyCategories = categories.filter(category => category.amount === 0);
+
     const newCommand = {
       type: command,
-      id: v4()
+      id: v4(),
+      emptyCategories
     }
 
     setExecutedCommands(prevState => [...prevState, newCommand]);
@@ -23,8 +26,8 @@ export const Clear = ({ command, setCategories, setExecutedCommands }) => {
       <button
         type="button"
         onClick={() => {
-          clearAllEmptyCategories();
           createNewClearCommand();
+          clearAllEmptyCategories();
         }}
       >
         Execute
