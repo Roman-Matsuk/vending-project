@@ -16,25 +16,50 @@ export const Report = ({
   const [month, setMonth] = useState('default');
   const [day, setDay] = useState('default');
 
+  const func = (commands) => {
+    let result = {}
+
+    for (let i = 0; i < commands.length; i++) {
+      if (result.hasOwnProperty(commands[i].categoryName)) {
+        result[commands[i].categoryName] += 1
+      } else {
+        result[commands[i].categoryName] = 1
+      }
+    }
+
+    return Object.entries(result).map(entry => entry.reduce((prev, curr) => `${prev} ${curr}`));
+  }
+
   const createNewReportCommand = () => {
     let purchaseCommands;
+    let total;
 
     const newCommand = {
       type: command,
       id: v4(),
-      purchaseCommands
+      purchaseCommands,
+      total,
+      year,
+      month
     };
 
     if (day === 'default') {
-      newCommand.purchaseCommands = executedCommands.filter(
+      const allPurchaseCommands = executedCommands.filter(
         command => command.type === 'purchase' && command.year === year && command.month === month
       );
+
+      newCommand.purchaseCommands = func(allPurchaseCommands);
+      newCommand.total = allPurchaseCommands.reduce((prev, current) => prev + current.categoryPrice, 0);
       newCommand.type = newCommand.type + ' month';
     } else {
-      newCommand.purchaseCommands = executedCommands.filter(
+      const allPurchaseCommands = executedCommands.filter(
         command => command.type === 'purchase' && command.year === year && command.month === month && command.day === day
       );
+
+      newCommand.purchaseCommands = func(allPurchaseCommands);
+      newCommand.total = allPurchaseCommands.reduce((prev, current) => prev + current.categoryPrice, 0);
       newCommand.type = newCommand.type + ' day';
+      newCommand.day = day;
     }
 
     setExecutedCommands(prevState => [...prevState, newCommand]);

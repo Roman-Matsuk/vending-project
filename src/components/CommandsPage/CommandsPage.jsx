@@ -8,7 +8,7 @@ import { Purchase } from '../Purchase';
 import { Report } from '../Report';
 
 export const CommandsPage = ({ categories, command, executedCommands, setCategories, setExecutedCommands }) => {
-  
+
   const render = (command) => {
     switch (command) {
       case 'addCategory':
@@ -36,6 +36,7 @@ export const CommandsPage = ({ categories, command, executedCommands, setCategor
           <Purchase
             categories={categories}
             command={command}
+            executedCommands={executedCommands}
             setCategories={setCategories}
             setExecutedCommands={setExecutedCommands}
           />

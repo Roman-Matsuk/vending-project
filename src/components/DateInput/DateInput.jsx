@@ -44,7 +44,7 @@ export const DateInput = ({ month, setIsError, setYear, setMonth, setDay }) => {
     }
 
     if (Number.isInteger(daysInMonth)) {
-      for (let i = 0; i <= daysInMonth; i++) {
+      for (let i = 1; i <= daysInMonth; i++) {
         days.push(i);
       }
       

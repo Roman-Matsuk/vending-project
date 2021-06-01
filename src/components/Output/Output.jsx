@@ -7,22 +7,22 @@ export const Output = ({ executedCommands }) => {
       case 'addCategory':
       case 'addItem':
         return (
-          <p key={command.id}>{`${command.categoryName} ${command.categoryPrice} ${command.categoryAmount}`}</p>
+          <li key={command.id}>{`${command.categoryName} ${command.categoryPrice} ${command.categoryAmount}`}</li>
         )
 
       case 'purchase':
         return (
-          <ul key={command.id}>
-            <li>{`${command.year}-${command.month}-${command.day}`}</li>
-            <li>{`${command.categoryName} ${command.categoryPrice}`}</li>
-          </ul>
+          <li key={command.id}>
+            {`${command.year}-${command.month}-${command.day}`}<br />
+            {`${command.categoryName} ${command.categoryPrice}`}
+          </li>
         )
 
       case 'list':
         return (
           command.categories.map(
             category => (
-              <p key={category.id}>{`${category.name} ${category.price} ${category.amount}`}</p>
+              <li key={category.id}>{`${category.name} ${category.price} ${category.amount}`}</li>
           ))
         );
 
@@ -30,14 +30,41 @@ export const Output = ({ executedCommands }) => {
         return (
           command.emptyCategories.map(
             category => (
-              <p key={category.id}>{`${category.name} ${category.price}`}</p>
+              <li key={category.id}>{`${category.name} ${category.price}`}</li>
           ))
         )
 
-      // case 'report month':
-      //   return (
-      //     command.purchaseCommands.map
-      //   );
+      case 'report month':
+        return (
+          command.purchaseCommands === 0
+          ? (
+            <li key={command.id}>
+              {`${command.year}-${command.month}`}
+              There is no purchases
+            </li>
+          )
+          : (<li key={command.id}>
+              {`${command.year}-${command.month}`}<br />
+              {command.purchaseCommands.map(command => <>{command}<br/></>)}
+            </li>
+          )
+        );
+
+      case 'report day':
+        return (
+          command.purchaseCommands === 0
+          ? (
+            <li key={command.id}>
+              {`${command.year}-${command.month}-${command.day}`}
+              There is no purchases
+            </li>
+          )
+          : (<li key={command.id}>
+              {`${command.year}-${command.month}-${command.day}`}<br />
+              {command.purchaseCommands.map(command => <>{command}<br/></>)}
+            </li>
+          )
+        );
 
       default:
         return <p>Error</p>;
@@ -47,7 +74,9 @@ export const Output = ({ executedCommands }) => {
   return (
     <div>
       <p>Output</p>
-      {executedCommands.map(command => renderCommand(command))}
+      <ul>
+        {executedCommands.map(command => renderCommand(command))}
+      </ul>
     </div>
   )
 }

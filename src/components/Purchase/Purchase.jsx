@@ -50,7 +50,7 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
     }
 
     if (Number.isInteger(daysInMonth)) {
-      for (let i = 0; i <= daysInMonth; i++) {
+      for (let i = 1; i <= daysInMonth; i++) {
         days.push(i);
       }
       
@@ -66,13 +66,13 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
     setCategories(prevState => {
       return prevState.map(category => {
         if (category.id === categoryId) {
-          category.amount -= 1;
+          category.amount = category.amount - 1;
         }
 
         return category;
       })
     })
-  }
+  };
 
   const createPurchaseCommand = () => {
     const category = categories.find(ctgry => ctgry.id === categoryId);
@@ -82,7 +82,8 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
       id: v4(),
       categoryName: category.name,
       categoryPrice: category.price,
-      categoryAmount: category.amount,
+      // categoryAmount: category.amount,
+      categoryId,
       year,
       month,
       day,
@@ -128,6 +129,10 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
     } else {
       purchaseCategory();
       createPurchaseCommand();
+      setCategoryId('default');
+      setYear('default');
+      setMonth('default');
+      setDay('default');
     }
   }
 
@@ -146,6 +151,7 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
           {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
         <select
+          value={year}
           onChange={(event) => {
             setIsError(false);
             setYear(event.target.value)
@@ -157,6 +163,7 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
           {yearsRender(dates.yearBoundaries)}
         </select>
         <select
+          value={month}
           onChange={(event) => {
             setIsError(false);
             setMonth(event.target.value)
@@ -168,6 +175,7 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
           {dates.months.map(month => <option key={month} value={month}>{month}</option>)}
         </select>
         <select
+          value={day}
           onChange={(event) => {
             setIsError(false);
             setDay(event.target.value)
