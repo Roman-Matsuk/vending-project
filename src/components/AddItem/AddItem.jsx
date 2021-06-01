@@ -59,9 +59,10 @@ export const AddItem = ({ categories, command, setCategories, setExecutedCommand
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <p>{command}</p>
+      <form className="item item--parameters conteiner commands-interface" onSubmit={handleSubmit}>
+        <p className="command">{'>'} {command}</p>
         <select
+          className="input"
           value={categoryId}
           onChange={event => {
             setIsError(false);
@@ -72,6 +73,7 @@ export const AddItem = ({ categories, command, setCategories, setExecutedCommand
           {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
         <input
+          className="input"
           type="number"
           value={newAmount}
           onChange={event => {
@@ -79,7 +81,10 @@ export const AddItem = ({ categories, command, setCategories, setExecutedCommand
             setNewAmount(+event.target.value)
           }}
         />
-        <button type="submit">
+        <button
+          className="button"
+          type="submit"
+        >
           Execute
         </button>
         {isError && (

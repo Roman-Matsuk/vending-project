@@ -2,7 +2,15 @@ import React from 'react';
 
 import * as dates from '../../utils/utils';
 
-export const DateInput = ({ month, setIsError, setYear, setMonth, setDay }) => {
+export const DateInput = ({
+  year,
+  month,
+  day,
+  setIsError,
+  setYear,
+  setMonth,
+  setDay
+}) => {
 
   const yearsRender = (years) => {
     const yearsToRender = [];
@@ -59,6 +67,8 @@ export const DateInput = ({ month, setIsError, setYear, setMonth, setDay }) => {
   return (
     <>
       <select
+        value={year}
+        className="input"
         onChange={(event) => {
           setIsError(false);
           setYear(event.target.value)
@@ -70,9 +80,11 @@ export const DateInput = ({ month, setIsError, setYear, setMonth, setDay }) => {
         {yearsRender(dates.yearBoundaries)}
       </select>
       <select
+        value={month}
+        className="input"
         onChange={(event) => {
           setIsError(false);
-          setMonth(event.target.value)
+          setMonth(event.target.value);
         }}
       >
         <option value="default">
@@ -81,6 +93,8 @@ export const DateInput = ({ month, setIsError, setYear, setMonth, setDay }) => {
         {dates.months.map(month => <option key={month} value={month}>{month}</option>)}
       </select>
       <select
+        value={day}
+        className="input"
         onChange={(event) => {
           setIsError(false);
           setDay(event.target.value)

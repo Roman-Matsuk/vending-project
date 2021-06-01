@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { v4 } from 'uuid';
 import * as dates from '../../utils/utils';
+import { DateInput } from '../DateInput';
 
 export const Purchase = ({ categories, command, setCategories, setExecutedCommands }) => {
   const [categoryId, setCategoryId] = useState('default');
@@ -138,9 +139,10 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <p>{command}</p>
+      <form className="conteiner commands-interface" onSubmit={handleSubmit}>
+        <p className="command">{'>'} {command}</p>
         <select
+          className="input"
           value={categoryId}
           onChange={event => {
             setIsError(false);
@@ -150,43 +152,20 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
           <option value="default">Select category</option>
           {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
-        <select
-          value={year}
-          onChange={(event) => {
-            setIsError(false);
-            setYear(event.target.value)
-          }}
+        <DateInput
+          year={year}
+          month={month}
+          day={day}
+          setIsError={setIsError}
+          setYear={setYear}
+          setMonth={setMonth}
+          setDay={setDay}
+        />
+        <button
+          className="button"
+          type="submit"
+          disabled={categoryId !== 'default' && setButton()}
         >
-          <option value="default">
-            Select year
-          </option>
-          {yearsRender(dates.yearBoundaries)}
-        </select>
-        <select
-          value={month}
-          onChange={(event) => {
-            setIsError(false);
-            setMonth(event.target.value)
-          }}
-        >
-          <option value="default">
-            Select month
-          </option>
-          {dates.months.map(month => <option key={month} value={month}>{month}</option>)}
-        </select>
-        <select
-          value={day}
-          onChange={(event) => {
-            setIsError(false);
-            setDay(event.target.value)
-          }}
-        >
-          <option value="default">
-            Select day
-          </option>
-          {daysRender(month)}
-        </select>
-        <button type="submit" disabled={categoryId !== 'default' && setButton()}>
           Execute
         </button>
         {isError && renderError()}

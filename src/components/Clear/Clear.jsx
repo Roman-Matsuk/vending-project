@@ -21,9 +21,10 @@ export const Clear = ({ command, categories, setCategories, setExecutedCommands 
   }
 
   return (
-    <div>
-      <p>{command}</p>
+    <div className="conteiner commands-interface">
+      <p className="command">{'>'} {command}</p>
       <button
+        className="button"
         type="button"
         onClick={() => {
           createNewClearCommand();

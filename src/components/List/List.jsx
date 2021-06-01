@@ -15,9 +15,10 @@ export const List = ({ command, categories, setExecutedCommands }) => {
   }
 
   return (
-    <div>
-      <p>{command}</p>
+    <div className="conteiner commands-interface">
+      <p className="command">{'>'} {command}</p>
       <button
+        className="button"
         type="button"
         onClick={createNewListCommand}
       >

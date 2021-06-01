@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { v4 } from 'uuid';
 
+import './AddCategory.scss';
+
 export const AddCategory = ({ categories, command, setCategories, setExecutedCommands }) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -44,19 +46,19 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
   const handleErrorMessages = () => {
     switch(true) {
       case name === '':
-        return <p>Please provide a name for category!</p>
+        return <p className="error">Please provide a name for category!</p>
   
       case price === '':
-        return <p>Please provide a price for category!</p>
+        return <p className="error">Please provide a price for category!</p>
 
       case categories.some(category => category.name === name):
-        return <p>The category already exists!</p>
+        return <p className="error">The category already exists!</p>
 
       case !Number.isInteger(amount) && amount !== '':
-        return <p>Please provide integer number from amount!</p>
+        return <p className="error">Please provide integer number from amount!</p>
 
       default:
-        return <p>Please check that all fields are filled</p>
+        return <p className="error">Please check that all fields are filled</p>
     }
   }
 
@@ -64,7 +66,14 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
     event.preventDefault();
     const existingCategory = categories.find(category => category.name === name)
 
-    if (existingCategory || name === '' || price === '' || (!Number.isInteger(amount) && amount !== '')) {
+    if (
+      existingCategory
+      || name === ''
+      || price === ''
+      || (!Number.isInteger(amount) && amount !== '')
+      || amount < 0
+      || price <= 0
+    ) {
       setIsError(true);
     } else {
       createNewCategory();
@@ -76,10 +85,11 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <p>{command}</p>
+    <>
+      <form className="category conteiner" onSubmit={handleSubmit}>
+        <p className="category__command command">{'>'} {command}</p>
         <input
+          className="category__name input"
           type="text"
           placeholder="Category name"
           value={name}
@@ -89,6 +99,7 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
           }}
         />
         <input
+          className="category__price input"
           type="number"
           placeholder="Price"
           value={price}
@@ -98,6 +109,7 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
           }}
         />
         <input
+          className="category__amount input"
           type="number"
           placeholder="Amount"
           value={amount}
@@ -106,11 +118,16 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
             setAmount(+event.target.value)
           }}
         />
-        <button type="submit">Execute</button>
-        {isError && (
-          handleErrorMessages()
-        )}
+        <button
+          className="category__button button"
+          type="submit"
+        >
+          Execute
+        </button>
       </form>
-    </div>
+      {isError && (
+        handleErrorMessages()
+      )}
+    </>
   );
 }

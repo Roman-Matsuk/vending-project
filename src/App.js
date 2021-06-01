@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.scss';
 
 import { CommandsPage } from './components/CommandsPage';
+import { Header } from './components/Header';
 import { Output } from './components/Output';
 
 function App() {
@@ -14,15 +15,7 @@ function App() {
 
   return (
     <div className="App">
-      <select onChange={(event) => setCommand(event.target.value)}>
-        <option value="addCategory">Select command</option>
-        <option value="addCategory">addCategory</option>
-        <option value="addItem">addItem</option>
-        <option value="purchase">purchase</option>
-        <option value="list">list</option>
-        <option value="clear">clear</option>
-        <option value="report">report</option>
-      </select>
+      <Header setCommand={setCommand} />
       <CommandsPage
         categories={categories}
         command={command}

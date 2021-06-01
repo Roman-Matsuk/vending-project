@@ -7,6 +7,8 @@ import { List } from '../List';
 import { Purchase } from '../Purchase';
 import { Report } from '../Report';
 
+import './CommandsPage.scss';
+
 export const CommandsPage = ({ categories, command, executedCommands, setCategories, setExecutedCommands }) => {
 
   const render = (command) => {
@@ -78,7 +80,7 @@ export const CommandsPage = ({ categories, command, executedCommands, setCategor
   }
   
   return (
-    <div>
+    <div className="commands commands--parameters">
       {render(command)}
     </div>
   );

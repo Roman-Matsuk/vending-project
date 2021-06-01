@@ -72,21 +72,26 @@ export const Report = ({
   }
 
   return (
-    <div>
-      <p>{command}</p>
-      <form onSubmit={handleSubmit}>
+    <>
+      <form className="conteiner commands-interface" onSubmit={handleSubmit}>
+        <p className="command">{'>'} {command}</p>
         <DateInput
+          year={year}
           month={month}
+          day={day}
           setIsError={setIsError}
           setYear={setYear}
           setMonth={setMonth}
           setDay={setDay}
         />
-        <button type="submit">
+        <button
+          className="button"
+          type="submit"
+        >
           Execute
         </button>
       </form>
       {isError && <p>An error ocured</p>}
-    </div>
+    </>
   );
 }
