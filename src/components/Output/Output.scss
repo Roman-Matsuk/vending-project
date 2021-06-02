@@ -1,6 +1,7 @@
 .output {
   overflow: auto;
-  max-height: calc(100vh - 20%);
+  height: calc(100vh - 250px);
+  min-height: 150px;
 
   &__header {
     text-transform: uppercase;
