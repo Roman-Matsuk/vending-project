@@ -1,6 +1,6 @@
 # Vending machine
 
-Github Pages: [LINK]()
+Github Pages: [LINK](https://roman-matsuk.github.io/vending-project/)
 
 To run project locally:
 1. Clone project.
