@@ -21,8 +21,8 @@ export const Clear = ({ command, categories, setCategories, setExecutedCommands 
   }
 
   return (
-    <div className="conteiner commands-interface">
-      <p className="command">{'>'} {command}</p>
+    <div className="conteiner one-command">
+      <p className="command one-command__title">{'>'} {command}</p>
       <button
         className="button"
         type="button"

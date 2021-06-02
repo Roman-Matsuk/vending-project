@@ -10,7 +10,7 @@ export const Output = ({ executedCommands }) => {
       case 'addItem':
         return (
           <li className="output__item" key={command.id}>
-            {`${command.categoryName} ${command.categoryPrice} ${command.categoryAmount}`}
+            {`${command.categoryName} ${command.categoryPrice.toFixed(2)} ${command.categoryAmount}`}
           </li>
         )
 
@@ -18,23 +18,27 @@ export const Output = ({ executedCommands }) => {
         return (
           <li className="output__item" key={command.id}>
             {`${command.year}-${command.month}-${command.day}`}<br />
-            {`${command.categoryName} ${command.categoryPrice}`}
+            {`${command.categoryName} ${command.categoryPrice.toFixed(2)}`}
           </li>
         )
 
       case 'list':
         return (
-          [...command.categories].sort((a, b) => b.amount - a.amount).map(
-            category => (
-              <li className="output__item" key={category.id}>{`${category.name} ${category.price} ${category.amount}`}</li>
-          ))
+          <li className="output__item" key={command.id}>
+            {command.categories.length !== 0
+              ? [...command.categories].sort((a, b) => b.amount - a.amount).map(
+                  category => (
+                    <>{`${category.name} ${category.price.toFixed(2)} ${category.amount}`}<br /></>
+                ))
+              : 'There is no categories'}
+          </li>
         );
 
       case 'clear':
         return (
           command.emptyCategories.map(
             category => (
-              <li className="output__item" key={category.id}>{`${category.name} ${category.price}`}</li>
+              <li className="output__item" key={category.id}>{`${category.name} ${category.price.toFixed(2)}`}</li>
           ))
         )
 
@@ -49,7 +53,13 @@ export const Output = ({ executedCommands }) => {
           )
           : (<li className="output__item" key={command.id}>
               {`${command.year}-${command.month}`}<br />
-              {command.purchaseCommands.map(command => <>{command}<br/></>)}
+              {command.purchasedCategories.map(
+                categorie => (
+                  <span key={categorie.name}>
+                    {`${categorie.name} ${(categorie.price * categorie.amount).toFixed(2)} ${categorie.amount}`}<br/>
+                  </span>
+                )
+              )}
               {`> Total: ${command.total}`}
             </li>
           )
@@ -59,14 +69,20 @@ export const Output = ({ executedCommands }) => {
         return (
           command.purchaseCommands === 0
           ? (
-            <li key={command.id}>
+            <li className="output__item" key={command.id}>
               {`${command.year}-${command.month}-${command.day}`}
               There is no purchases
             </li>
           )
-          : (<li key={command.id}>
+          : (<li className="output__item" key={command.id}>
               {`${command.year}-${command.month}-${command.day}`}<br />
-              {command.purchaseCommands.map(command => <>{command}<br/></>)}
+              {command.purchasedCategories.map(
+                categorie => (
+                  <span key={categorie.name}>
+                    {`${categorie.name} ${(categorie.price * categorie.amount).toFixed(2)} ${categorie.amount}`}<br/>
+                  </span>
+                )
+              )}
               {`> Total: ${command.total}`}
             </li>
           )
@@ -79,7 +95,7 @@ export const Output = ({ executedCommands }) => {
 
   return (
     <div className="output">
-      <p>Output</p>
+      <p className="output__header">Output</p>
       <ul className="output__list">
         {executedCommands.map(command => renderCommand(command))}
       </ul>

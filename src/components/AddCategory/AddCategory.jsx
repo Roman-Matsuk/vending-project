@@ -15,8 +15,8 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
     }
     const newCategory = {
       name,
-      price: +price.toFixed(2),
-      amount: amount,
+      price: +Number(price).toFixed(2),
+      amount: +amount,
       id: v4(),
     }
 
@@ -32,8 +32,8 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
       type: command,
       id: v4(),
       categoryName: name,
-      categoryPrice: +price.toFixed(2),
-      categoryAmount: amount,
+      categoryPrice: +Number(price).toFixed(2),
+      categoryAmount: +amount,
     }
 
     if (amount === '') {
@@ -43,7 +43,7 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
     setExecutedCommands(prevState => [...prevState, newCommand]);
   };
 
-  const handleErrorMessages = () => {
+  const renderError = () => {
     switch(true) {
       case name === '':
         return <p className="error">Please provide a name for category!</p>
@@ -54,7 +54,7 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
       case categories.some(category => category.name === name):
         return <p className="error">The category already exists!</p>
 
-      case !Number.isInteger(amount) && amount !== '':
+      case !Number.isInteger(+amount) && amount !== '':
         return <p className="error">Please provide integer number from amount!</p>
 
       default:
@@ -70,9 +70,9 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
       existingCategory
       || name === ''
       || price === ''
-      || (!Number.isInteger(amount) && amount !== '')
-      || amount < 0
-      || price <= 0
+      || (!Number.isInteger(+amount) && amount !== '')
+      || +amount < 0
+      || +price <= 0
     ) {
       setIsError(true);
     } else {
@@ -105,7 +105,9 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
           value={price}
           onChange={(event) => {
             setIsError(false);
-            setPrice(+event.target.value)
+            if (!isNaN(+event.target.value)) {
+              setPrice(event.target.value)
+            }
           }}
         />
         <input
@@ -115,7 +117,9 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
           value={amount}
           onChange={(event) => {
             setIsError(false);
-            setAmount(+event.target.value)
+            if (!isNaN(+event.target.value)) {
+              setAmount(event.target.value)
+            }
           }}
         />
         <button
@@ -126,7 +130,7 @@ export const AddCategory = ({ categories, command, setCategories, setExecutedCom
         </button>
       </form>
       {isError && (
-        handleErrorMessages()
+        renderError()
       )}
     </>
   );

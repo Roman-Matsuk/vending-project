@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { v4 } from 'uuid';
-import * as dates from '../../utils/utils';
+
 import { DateInput } from '../DateInput';
 
 export const Purchase = ({ categories, command, setCategories, setExecutedCommands }) => {
@@ -10,58 +10,6 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
   const [year, setYear] = useState('default');
   const [month, setMonth] = useState('default');
   const [day, setDay] = useState('default');
-
-  const yearsRender = (years) => {
-    const yearsToRender = [];
-    for (let i = years.firstYear; i <= years.lastYear; i++) {
-      yearsToRender.push(i);
-    }
-
-    return yearsToRender.map(year => <option key={year} value={year}>{year}</option>);
-  };
-
-  const daysRender = (selectedMonth) => {
-    let daysInMonth;
-    let days = [];
-
-    switch (selectedMonth) {
-      case '01':
-      case '03':
-      case '05':
-      case '07':
-      case '08':
-      case '10':
-      case '12':
-        daysInMonth = 31;
-        break;
-
-      case '04':
-      case '06':
-      case '09':
-      case '11':
-        daysInMonth = 30;
-        break;
-
-      case '02':
-        daysInMonth = 28;
-        break;
-
-      default:
-        daysInMonth = 'Select month first';
-    }
-
-    if (Number.isInteger(daysInMonth)) {
-      for (let i = 1; i <= daysInMonth; i++) {
-        days.push(i);
-      }
-      
-      return days.map(day => <option key={day} value={day}>{day}</option>)
-    } else {
-      days.push(daysInMonth);
-
-      return days.map(day => <option key={day} value="default">{day}</option>)
-    }
-  }
 
   const purchaseCategory = () => {
     setCategories(prevState => {
@@ -83,7 +31,6 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
       id: v4(),
       categoryName: category.name,
       categoryPrice: category.price,
-      // categoryAmount: category.amount,
       categoryId,
       year,
       month,
@@ -106,19 +53,19 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
   const renderError = () => {
     switch (true) {
       case categoryId === 'default': 
-        return <p>Please select a category!</p>
+        return <p className="error">Please select a category!</p>
 
       case year === 'default':
-        return <p>Please select a year!</p>
+        return <p className="error">Please select a year!</p>
       
       case month === 'default':
-        return <p>Please select a month!</p>
+        return <p className="error">Please select a month!</p>
 
       case day === 'default':
-        return <p>Please select a day!</p>
+        return <p className="error">Please select a day!</p>
 
       default:
-        return <p>Please provide a date!</p>
+        return <p className="error">Please provide a date!</p>
     }
   }
 
@@ -138,7 +85,7 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
   }
 
   return (
-    <div>
+    <>
       <form className="conteiner commands-interface" onSubmit={handleSubmit}>
         <p className="command">{'>'} {command}</p>
         <select
@@ -168,8 +115,8 @@ export const Purchase = ({ categories, command, setCategories, setExecutedComman
         >
           Execute
         </button>
-        {isError && renderError()}
       </form>
-    </div>
+      {isError && renderError()}
+    </>
   );
 }

@@ -17,27 +17,49 @@ export const Report = ({
   const [day, setDay] = useState('default');
 
   const func = (commands) => {
-    let result = {}
+    // let result = {}
+
+    // for (let i = 0; i < commands.length; i++) {
+    //   if (result.hasOwnProperty(commands[i].categoryName)) {
+    //     result[commands[i].categoryName] += 1
+    //   } else {
+    //     result[commands[i].categoryName] = 1
+    //   }
+    // }
+
+    // return Object.entries(result).map(entry => entry.reduce((prev, curr) => `${prev} ${curr}`));
+
+    let result = [];
 
     for (let i = 0; i < commands.length; i++) {
-      if (result.hasOwnProperty(commands[i].categoryName)) {
-        result[commands[i].categoryName] += 1
+      const isCategoryExists = result.some(category => category.name === commands[i].categoryName);
+
+      if (isCategoryExists) {
+        const existingCategory = result.find(category => category.name === commands[i].categoryName);
+
+        existingCategory.amount += 1;
       } else {
-        result[commands[i].categoryName] = 1
+        const category = {
+          name: commands[i].categoryName,
+          price: commands[i].categoryPrice,
+          amount: 1,
+        }
+
+        result.push(category)
       }
     }
 
-    return Object.entries(result).map(entry => entry.reduce((prev, curr) => `${prev} ${curr}`));
+    return result.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   const createNewReportCommand = () => {
-    let purchaseCommands;
+    let purchasedCategories;
     let total;
 
     const newCommand = {
       type: command,
       id: v4(),
-      purchaseCommands,
+      purchasedCategories,
       total,
       year,
       month
@@ -48,7 +70,7 @@ export const Report = ({
         command => command.type === 'purchase' && command.year === year && command.month === month
       );
 
-      newCommand.purchaseCommands = func(allPurchaseCommands);
+      newCommand.purchasedCategories = func(allPurchaseCommands);
       newCommand.total = allPurchaseCommands.reduce((prev, current) => prev + current.categoryPrice, 0);
       newCommand.type = newCommand.type + ' month';
     } else {
@@ -56,7 +78,7 @@ export const Report = ({
         command => command.type === 'purchase' && command.year === year && command.month === month && command.day === day
       );
 
-      newCommand.purchaseCommands = func(allPurchaseCommands);
+      newCommand.purchasedCategories = func(allPurchaseCommands);
       newCommand.total = allPurchaseCommands.reduce((prev, current) => prev + current.categoryPrice, 0);
       newCommand.type = newCommand.type + ' day';
       newCommand.day = day;
@@ -65,10 +87,27 @@ export const Report = ({
     setExecutedCommands(prevState => [...prevState, newCommand]);
   }
 
+  const renderError = () => {
+    switch (true) {
+      case year === 'default':
+        return <p className="error">Please select a year!</p>
+      
+      case month === 'default':
+        return <p className="error">Please select a month!</p>
+
+      default:
+        return <p className="error">Please provide a date!</p>
+    }
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    createNewReportCommand();
+    if (year === 'default' || month === 'default') {
+      setIsError(true);
+    } else {
+      createNewReportCommand();
+    }
   }
 
   return (
@@ -91,7 +130,7 @@ export const Report = ({
           Execute
         </button>
       </form>
-      {isError && <p>An error ocured</p>}
+      {isError && renderError()}
     </>
   );
 }

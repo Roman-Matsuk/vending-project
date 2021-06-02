@@ -53,7 +53,11 @@ export const DateInput = ({
 
     if (Number.isInteger(daysInMonth)) {
       for (let i = 1; i <= daysInMonth; i++) {
-        days.push(i);
+        if (i < 10) {
+          days.push(`0${i}`);
+        } else {
+          days.push(`${i}`);
+        }
       }
       
       return days.map(day => <option key={day} value={day}>{day}</option>)

@@ -10,7 +10,7 @@ export const AddItem = ({ categories, command, setCategories, setExecutedCommand
     setCategories(prevState => {
       return prevState.map(category => {
         if (category.id === categoryId) {
-          category.amount += newAmount;
+          category.amount += +newAmount;
         }
 
         return category;
@@ -32,23 +32,23 @@ export const AddItem = ({ categories, command, setCategories, setExecutedCommand
     setExecutedCommands(prevState => [...prevState, newCommand]);
   };
 
-  const handleErrors = () => {
+  const renderError = () => {
     switch (true) {
       case categoryId === 'default':
-        return <p>Please select a category!</p>
+        return <p className="error">Please select a category!</p>
 
-      case !Number.isInteger(newAmount) && newAmount !== '':
-        return <p>Please provide integer number from amount!</p>
+      case !Number.isInteger(+newAmount) && newAmount !== '':
+        return <p className="error">Please provide integer number from amount!</p>
 
       default:
-        return <p>Please provide amount!</p>
+        return <p className="error">Please provide amount!</p>
     }
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (newAmount === '' || !Number.isInteger(newAmount) || categoryId === 'default') {
+    if (newAmount === '' || !Number.isInteger(+newAmount) || categoryId === 'default') {
       setIsError(true);
     } else {
       addAmountToCategory();
@@ -58,7 +58,7 @@ export const AddItem = ({ categories, command, setCategories, setExecutedCommand
   };
 
   return (
-    <div>
+    <>
       <form className="item item--parameters conteiner commands-interface" onSubmit={handleSubmit}>
         <p className="command">{'>'} {command}</p>
         <select
@@ -78,7 +78,9 @@ export const AddItem = ({ categories, command, setCategories, setExecutedCommand
           value={newAmount}
           onChange={event => {
             setIsError(false);
-            setNewAmount(+event.target.value)
+            if (!isNaN(+event.target.value)) {
+              setNewAmount(event.target.value)
+            }
           }}
         />
         <button
@@ -87,10 +89,10 @@ export const AddItem = ({ categories, command, setCategories, setExecutedCommand
         >
           Execute
         </button>
-        {isError && (
-          handleErrors()
-        )}
       </form>
-    </div>
+      {isError && (
+        renderError()
+      )}
+    </>
   );
 }
