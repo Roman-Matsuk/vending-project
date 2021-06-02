@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/vending-project/static/css/main.d2af07a9.chunk.css",
+    "main.css": "/vending-project/static/css/main.435cdd37.chunk.css",
     "main.js": "/vending-project/static/js/main.a8ba3a83.chunk.js",
     "main.js.map": "/vending-project/static/js/main.a8ba3a83.chunk.js.map",
     "runtime-main.js": "/vending-project/static/js/runtime-main.72e50425.js",
@@ -10,13 +10,13 @@
     "static/js/3.49bb00a0.chunk.js": "/vending-project/static/js/3.49bb00a0.chunk.js",
     "static/js/3.49bb00a0.chunk.js.map": "/vending-project/static/js/3.49bb00a0.chunk.js.map",
     "index.html": "/vending-project/index.html",
-    "static/css/main.d2af07a9.chunk.css.map": "/vending-project/static/css/main.d2af07a9.chunk.css.map",
+    "static/css/main.435cdd37.chunk.css.map": "/vending-project/static/css/main.435cdd37.chunk.css.map",
     "static/js/2.31826161.chunk.js.LICENSE.txt": "/vending-project/static/js/2.31826161.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.72e50425.js",
     "static/js/2.31826161.chunk.js",
-    "static/css/main.d2af07a9.chunk.css",
+    "static/css/main.435cdd37.chunk.css",
     "static/js/main.a8ba3a83.chunk.js"
   ]
 }
